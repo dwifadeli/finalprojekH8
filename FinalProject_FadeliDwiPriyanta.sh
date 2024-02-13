@@ -6,18 +6,43 @@ declare -a jurusan_mahasiswa
 declare -a nilai_mahasiswa
 
 function tampil_data_mahasiswa() {
-  local n="${1:-Default}"  #Untuk menambahkan keterangan BARU saat setelah update data
+  local n="${1:-Awal}"  #Untuk menambahkan keterangan BARU saat setelah update data
   clear
-  echo "Data Mahasiswa $n : " 
-  echo "-----------------------------------------"
-  echo "| Nama  |       Jurusan        | Nilai  |"
-  echo "-----------------------------------------"
+  echo "Data Mahasiswa $n: " 
+  echo "--------------------------------------------"
+  echo "| Nama    |         Jurusan      | Nilai   |"
+  echo "--------------------------------------------"
+
+  # Inisialisasi lebar kolom
+  nama_max_length=5
+  jurusan_max_length=8
+  nilai_max_length=5
+
+  # Mendapatkan lebar maksimum untuk setiap kolom
   for ((i=0; i<${#nama_mahasiswa[@]}; i++)); do
-    echo "| ${nama_mahasiswa[$i]} | ${jurusan_mahasiswa[$i]} | ${nilai_mahasiswa[$i]} |"
+    nama_length=${#nama_mahasiswa[$i]}
+    jurusan_length=${#jurusan_mahasiswa[$i]}
+    nilai_length=${#nilai_mahasiswa[$i]}
+    if ((nama_length > nama_max_length)); then
+      nama_max_length=$nama_length
+    fi
+    if ((jurusan_length > jurusan_max_length)); then
+      jurusan_max_length=$jurusan_length
+    fi
+    if ((nilai_length > nilai_max_length)); then
+      nilai_max_length=$nilai_length
+    fi
   done
-  echo "-----------------------------------------"
+
+  # Menampilkan data dengan lebar kolom yang disesuaikan
+  for ((i=0; i<${#nama_mahasiswa[@]}; i++)); do
+    printf "| %-$(($nama_max_length+2))s | %-$(($jurusan_max_length+2))s | %-$(($nilai_max_length+2))s |\n" "${nama_mahasiswa[$i]}" "${jurusan_mahasiswa[$i]}" "${nilai_mahasiswa[$i]}"
+  done
+
+  echo "--------------------------------------------"
 }
 
+# Function to find index of student by name
 function cari_index_mahasiswa() {
   nama_cari="$1"
   for ((i=0; i<${#nama_mahasiswa[@]}; i++)); do
@@ -29,6 +54,7 @@ function cari_index_mahasiswa() {
   echo "-1"
 }
 
+# Function to update student data
 function update_mahasiswa() {
   echo -n "Masukkan nama mahasiswa yang ingin diupdate: "
   read nama_update
@@ -49,14 +75,14 @@ function update_mahasiswa() {
       echo "Jurusan mahasiswa berhasil diubah."
     fi
 
-   tampil_data_mahasiswa "Baru" 
+    tampil_data_mahasiswa "Baru" 
     analisis_kelulusan
   else
     echo "Mahasiswa dengan nama $nama_update tidak ditemukan."
   fi
 }
 
-# Fungsi untuk menambahkan data mahasiswa
+# Function to add new student data
 function tambah_mahasiswa() {
   echo -n "Masukkan nama mahasiswa baru: "
   read nama_baru
@@ -81,7 +107,7 @@ function tambah_mahasiswa() {
   analisis_kelulusan
 }
 
-# Fungsi untuk menganalisis data kelulusan mahasiswa
+# Function to analyze student graduation data
 function analisis_kelulusan() {
   lulus=0
   tidak_lulus=0
@@ -95,25 +121,25 @@ function analisis_kelulusan() {
   done
 
   echo " "
-  echo "Analisis Data Kelulusan Mahasiswa:"
-  echo "  ---------------------------------------------------------"
-  echo "  | Jumlah Mahasiswa Lulus | Jumlah Mahasiswa Tidak Lulus | "
-  echo "  ---------------------------------------------------------"
-  echo "  |             $lulus          |             $tidak_lulus                | "
-  echo "  ---------------------------------------------------------"
+  echo "Statistik Kelulusan:"
+  echo "---------------------------------------------------------"
+  echo "| Jumlah Mahasiswa Lulus | Jumlah Mahasiswa Tidak Lulus | "
+  echo "---------------------------------------------------------"
+  echo "|             $lulus          |             $tidak_lulus                | "
+  echo "---------------------------------------------------------"
   echo " "
 }
 
-# Menu utama
-# Menambahkan data awal
-nama_mahasiswa=("Andi " "Lutfi" "Nadia")
+# Main menu
+# Adding initial data
+nama_mahasiswa=("Andi" "Lutfi" "Nadia")
 jurusan_mahasiswa=("Teknik Informatika" "Sistem Informatika" "Teknik Elektro")
 nilai_mahasiswa=(78 83 88)
 
 tampil_data_mahasiswa
 analisis_kelulusan
 
-# Pertanyaan untuk mengupdate data mahasiswa
+# Question to update student data
 while true; do
   echo -n "Apakah ingin mengupdate data mahasiswa? (Y/N): "
   read jawaban
