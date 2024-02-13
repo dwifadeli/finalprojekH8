@@ -75,7 +75,7 @@ function update_mahasiswa() {
       echo "Jurusan mahasiswa berhasil diubah."
     fi
 
-    tampil_data_mahasiswa "Baru" 
+    tampil_data_mahasiswa "Jurusan telah diupdate, Data Mahasiswa terbaru" 
     analisis_kelulusan
   else
     echo "Mahasiswa dengan nama $nama_update tidak ditemukan."
@@ -103,7 +103,7 @@ function tambah_mahasiswa() {
   nilai_mahasiswa+=("$nilai_baru")
 
   echo "Data mahasiswa baru berhasil ditambahkan."
-  tampil_data_mahasiswa "Baru"
+  tampil_data_mahasiswa "setelah penambahan data baru"
   analisis_kelulusan
 }
 
