@@ -107,7 +107,7 @@ function tambah_mahasiswa() {
   analisis_kelulusan
 }
 
-# Function to analyze student graduation data
+# Logika Kelulusan
 function analisis_kelulusan() {
   lulus=0
   tidak_lulus=0
@@ -130,8 +130,7 @@ function analisis_kelulusan() {
   echo " "
 }
 
-# Main menu
-# Adding initial data
+# List Awal
 nama_mahasiswa=("Andi" "Lutfi" "Nadia")
 jurusan_mahasiswa=("Teknik Informatika" "Sistem Informatika" "Teknik Elektro")
 nilai_mahasiswa=(78 83 88)
@@ -139,7 +138,6 @@ nilai_mahasiswa=(78 83 88)
 tampil_data_mahasiswa
 analisis_kelulusan
 
-# Question to update student data
 while true; do
   echo -n "Apakah ingin mengupdate data mahasiswa? (Y/N): "
   read jawaban
